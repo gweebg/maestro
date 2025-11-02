@@ -1,15 +1,19 @@
+import os
+
 from dotenv import load_dotenv
 
+from src.maestro import Maestro
 from src.proxmox import ProxmoxClient
 
 load_dotenv()
 
 
 def main():
-    proxmox = ProxmoxClient()
+    _proxmox = ProxmoxClient()
+    maestro = Maestro()
 
-    for vm in proxmox.list_vms():
-        print(vm["name"])
+    if token := os.getenv("DISCORD_TOKEN"):
+        maestro.run(token)
 
 
 if __name__ == "__main__":
